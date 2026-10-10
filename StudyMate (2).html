@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" id="md" content="Free student calculators and study tools: CGPA, SGPA, percentage, attendance, marks and a study timer.">
+<title>StudyMate – Everything a student needs, in one place</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafafa;--card:#fff;--ink:#0f111d;--mute:#4a4d5a;--line:#e6e6ea;--blue:#0f111d;--hi:#ffd24f;--ok:#12805c;--bad:#c2331f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif}
+h1,h2,h3,.brand{font-family:Inter,system-ui,sans-serif;margin:0}
+.wrap{max-width:880px;margin:0 auto;padding:20px}
+.brand{font-weight:700;font-size:20px;cursor:pointer;display:inline-block}
+.brand span{background:var(--hi);color:#14213d;padding:0 6px;border-radius:4px}
+.hero{padding:56px 0 28px}
+.hero h1{font-size:clamp(34px,7vw,60px);line-height:1;font-weight:700;letter-spacing:-.03em}
+.hero h1 mark{background:var(--hi);color:#14213d;padding:0 .12em;border-radius:6px}
+.hero p{color:var(--mute);font-size:19px;margin:16px 0 24px}
+.search{width:100%;max-width:520px;padding:14px 16px;font:inherit;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+.search:focus,.btn:focus-visible,input:focus-visible,.tool:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:28px}
+.tool{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .12s,border-color .12s}
+.tool:hover{border-color:var(--blue);transform:translateY(-2px)}
+.tool .ic{font-size:30px}.tool h3{font-size:19px;margin:8px 0 4px}.tool p{margin:0;color:var(--mute);font-size:14px}
+.soon{color:var(--mute);margin:28px 0 0;text-align:center}
+.empty{color:var(--mute);margin-top:20px}
+.back{background:none;border:0;color:var(--blue);font:600 15px Inter,sans-serif;cursor:pointer;padding:8px 0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;margin-top:8px}
+.panel h1{font-size:30px;margin-bottom:4px}.panel .sub{color:var(--mute);margin:0 0 18px}
+.row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
+input[type=number],input[type=text]{flex:1;min-width:0;padding:11px 12px;font:inherit;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+label.f{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+.btn{padding:11px 18px;font:600 15px Inter,sans-serif;border-radius:10px;border:2px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer}
+.btn.alt{background:transparent;color:var(--blue)}
+.btn.x{padding:8px 12px;border-color:var(--line);color:var(--mute);background:transparent}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.result{margin-top:20px;padding:18px;border-radius:12px;background:var(--bg);border-left:5px solid var(--blue)}
+.result .big{font-family:Inter,sans-serif;font-size:46px;font-weight:700;line-height:1.1}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+.timer{text-align:center}.time{font-family:Inter,sans-serif;font-size:clamp(64px,22vw,120px);font-weight:700;letter-spacing:-.03em;line-height:1}
+.modes{display:flex;gap:8px;justify-content:center;margin:0 0 18px;flex-wrap:wrap}
+.modes .btn.on{background:var(--hi);color:#14213d;border-color:var(--hi)}
+.hd{display:flex;gap:10px;color:var(--mute);font-size:13px;font-weight:600;margin-bottom:6px}.hd span{flex:1}
+footer{padding:0 0 12px}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+nav a{padding:8px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px}
+nav a:hover{background:var(--card)}nav a[aria-current=page]{background:var(--hi);color:#14213d}
+a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.sec{margin-top:40px}.sec h2{font-size:26px}.sec>p{color:var(--mute);margin:4px 0 0}
+.tool .open{display:inline-block;margin-top:14px;font-weight:600;color:#fff;background:var(--blue);padding:8px 14px;border-radius:8px;font-size:14px}
+.prose{max-width:680px}.prose h3{font-size:19px;margin:22px 0 6px}.prose p,.prose li{margin:0 0 10px}.prose .date{color:var(--mute);font-size:14px}
+textarea{width:100%;min-height:130px;padding:11px 12px;font:inherit;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;text-align:left;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}
+.fcols a{display:block;color:var(--mute);text-decoration:none;padding:3px 0}.fcols a:hover{color:var(--blue)}
+.fcols p{margin:6px 0 0;color:var(--mute)}.copy{text-align:center;color:var(--mute);font-size:14px;margin:28px 0 8px}
+.tool,.panel{box-shadow:0 1px 3px rgba(15,31,61,.06)}.btn:hover{filter:brightness(1.12)}.btn.alt:hover{background:rgba(15,17,29,.08)}
+.sec h1{font-size:30px}.prose h1{font-size:30px;margin-bottom:12px}.guide{margin-top:24px}.guide h2{font-size:22px;margin:28px 0 8px}.guide h2:first-child{margin-top:0}.guide ol{padding-left:22px;margin:0 0 10px}.guide li{margin-bottom:6px}
+.formula{background:var(--bg);border-left:4px solid var(--blue);padding:12px 14px;border-radius:8px;font-weight:600}.guide a{color:var(--blue)}
+.hero{background:#2b6fe8;color:#fff;border-radius:0;padding:64px 0 56px;margin-top:0;box-shadow:0 0 0 100vmax #2b6fe8;clip-path:inset(0 -100vmax)}.hero p{color:#e8f0ff;margin-bottom:24px}
+.hrow{display:flex;gap:10px;flex-wrap:wrap}.hrow .search{flex:1 1 260px;width:auto;border-color:transparent}
+.btn.cta{background:var(--hi);color:#14213d;border-color:var(--hi);text-decoration:none;display:inline-flex;align-items:center}
+.hero .search:focus-visible{outline-color:#fff}
+body{overflow-x:hidden}.wrap{max-width:1000px;padding-top:0}
+.top{background:var(--card);border-bottom:1px solid var(--line)}.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}.bar nav{margin-top:0;flex:1;justify-content:flex-end}
+.eyebrow{font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#cfe0ff;margin:0 0 12px}
+.hero h1{max-width:760px}.hero p{max-width:620px}.back{margin-top:16px}
+#app>.panel{max-width:760px;margin-left:auto;margin-right:auto}#app>.panel+.panel{margin-top:24px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(15,31,61,.06)}
+.step b{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#0f111d;color:#ffd24f;margin-bottom:10px}.step h3{font-size:18px;margin:0 0 4px}.step p{margin:0;color:var(--mute);font-size:15px}
+.hero{background:#d8e1e6;color:#0b0b12;box-shadow:0 0 0 100vmax #d8e1e6}.hero p{color:#2f3442}.eyebrow{color:#3a2d97!important}
+.hero h1 mark{background:#3a2d97;color:#fff}.hrow .search{border-color:#adadc2}.hero .search:focus-visible{outline-color:#3a2d97}
+.btn.cta{background:#3a2d97;border-color:#3a2d97;color:#fff}.nav-x{display:none}
+.top{background:#ffd24f;border-bottom:0}.brand span{background:#0f111d;color:#ffd24f}
+.bar nav a{background:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.bar nav a:hover{background:#fff;box-shadow:0 0 0 2px #0f111d}.bar nav a[aria-current=page]{background:#0f111d;color:#ffd24f}
+.bar nav{gap:8px}.top .btn{border-radius:999px;text-transform:uppercase;font-size:13px;letter-spacing:.04em}
+.hero{background:#ffd24f;color:#0f111d;box-shadow:0 0 0 100vmax #ffd24f;position:relative;overflow:visible}
+.hero>*{position:relative;z-index:1}.hero p{color:#0f111d}.eyebrow{color:#0f111d!important}
+.hero::before{content:"";position:absolute;right:0;top:12px;width:280px;height:280px;border-radius:50%;background:#ffb938;opacity:.55}
+.hero::after{content:"";position:absolute;right:150px;bottom:28px;width:96px;height:96px;border-radius:50%;background:#fff}
+.hero h1{letter-spacing:-.03em}.hero h1 mark{background:none;color:#0f111d;padding:0}
+.hero h1::after{content:"";display:inline-block;width:.2em;height:.2em;background:#fff;border-radius:50%;margin-left:.1em}
+.hrow .search{border-color:#0f111d;border-radius:999px;padding-left:20px}.hero .search:focus-visible{outline-color:#0f111d}
+.btn.cta{background:#0f111d;border-color:#0f111d;color:#fff;border-radius:999px}
+.tool .open::after{content:" →"}.tool .open{background:#0f111d;color:#fff;border-radius:999px}.tool{border-radius:16px}
+.guide a,.prose a{text-decoration:underline}
+@media (max-width:640px){.hero::before,.hero::after{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar"><span class="brand" id="home"><span>Study</span>Mate</span><nav aria-label="Main"><a href="#home">Home</a><a href="#tools">Student Tools</a><a href="#study">Study Tools</a><a href="#about">About</a><a href="#contact">Contact</a></nav><a class="btn" href="#tools" style="text-decoration:none">Open Tools</a></div></header>
+<div class="wrap">
+  <main id="app"></main>
+  <footer><div class="fcols"><div><div class="brand"><span>Study</span>Mate</div><p>Free student calculators and study tools.</p></div>
+  <div><a href="#home">Home</a><a href="#tools">Student Tools</a><a href="#study">Study Tools</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+  <div><a href="#privacy">Privacy Policy</a><a href="#terms">Terms</a><a href="#disclaimer">Disclaimer</a></div></div>
+  <p class="copy">Copyright © 2026 StudyMate</p></footer>
+</div>
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const SUPPORT='vennavallividyadhari@gmail.com';
+const TOOLS=[
+ {id:'cgpa',g:'student',pop:1,ic:'🧮',name:'CGPA Calculator',d:'Combine your semester SGPAs into one CGPA, optionally weighted by credits.'},
+ {id:'sgpa',g:'student',pop:1,ic:'📊',name:'SGPA Calculator',d:'Work out your semester grade average from subject credits and grade points.'},
+ {id:'pct',g:'student',ic:'📈',name:'Percentage Calculator',d:'Turn marks obtained and total marks into a percentage.'},
+ {id:'att',g:'student',pop:1,ic:'📅',name:'Attendance Calculator',d:'See how many classes you can skip, or must attend, to meet your required attendance.'},
+ {id:'marks',g:'student',ic:'📝',name:'Marks Calculator',d:'Add up marks across several subjects and see your overall percentage.'},
+ {id:'timer',g:'study',ic:'⏳',name:'Study Timer',d:'Use the Study Timer to organize focused study sessions and breaks.'}
+];
+const app=$('#app');let tick=null;
+const num=v=>{const n=parseFloat(v);return isNaN(n)?null:n};
+const f2=n=>(Math.round(n*100)/100).toFixed(2);
+
+function card(x){return`<button class="tool" data-id="${x.id}"><div class="ic">${x.ic}</div><h3>${x.name}</h3><p>${x.d}</p><span class="open">Open Tool</span></button>`}
+function bind(c){c.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{location.hash=b.dataset.id})}
+function sect(t,sub,l){return`<section class="sec"><h2>${t}</h2><p>${sub}</p><div class="grid">${l.map(card).join('')}</div></section>`}
+function home(){
+  app.innerHTML=`<section class="hero"><p class="eyebrow">Free · No sign-up needed</p><h1>Everything You Need for <mark>Study</mark>, in One Place</h1>
+  <p>Free calculators and study tools to help students calculate, plan, and study smarter.</p>
+  <div class="hrow"><input class="search" id="q" type="search" placeholder="🔍 Search a tool..." aria-label="Search a tool"><a class="btn cta" href="#tools">Explore Tools</a></div></section>
+  <div id="res"></div>
+  <section class="sec"><h2>How it works</h2><p>Three simple steps, on any device.</p><div class="steps">
+  <div class="step"><b>1</b><h3>Pick a tool</h3><p>Choose a calculator or the study timer from the list above.</p></div>
+  <div class="step"><b>2</b><h3>Enter your numbers</h3><p>Fill in your marks, grades, credits, or attendance.</p></div>
+  <div class="step"><b>3</b><h3>Check the result</h3><p>Get an instant estimate, then confirm important results with your institution.</p></div></div></section><p class="soon">More tools coming soon...</p>`;
+  const draw=t=>{const o=$('#res');t=t.trim().toLowerCase();
+    if(t){const l=TOOLS.filter(x=>(x.name+' '+x.d).toLowerCase().includes(t));o.innerHTML=l.length?sect('Search results','',l):'<p class="empty">No tool matches that search yet.</p>'}
+    else o.innerHTML=sect('Popular Tools','The tools students use most.',TOOLS.filter(x=>x.pop))+sect('Student Tools','More calculators for marks and percentages.',TOOLS.filter(x=>x.g==='student'&&!x.pop))+sect('Study Tools','Tools to help you focus.',TOOLS.filter(x=>x.g==='study'));
+    bind(o)};
+  draw('');$('#q').oninput=e=>draw(e.target.value);
+}
+function shell(t,body){
+  app.innerHTML=`<button class="back" id="bk">← All tools</button><div class="panel"><h1>${t.ic} ${t.name}</h1><p class="sub">${t.d}</p>${body}</div>`;
+  $('#bk').onclick=()=>{location.hash=''};
+}
+
+/* Generic row-based calculator */
+function rows(t,cols,calc,start=3,labelName){
+  shell(t,`<div class="hd">${cols.map(c=>`<span>${c.h}</span>`).join('')}<span style="flex:0 0 52px"></span></div>
+  <div id="rows"></div><div class="actions"><button class="btn alt" id="add">+ Add row</button><button class="btn" id="go">Calculate</button></div><div id="out"></div>`);
+  const add=()=>{const d=document.createElement('div');d.className='row';
+    d.innerHTML=cols.map(c=>`<input type="${c.t||'number'}" step="any" min="0" placeholder="${c.p}" aria-label="${c.h}">`).join('')+`<button class="btn x" aria-label="Remove row">✕</button>`;
+    d.lastChild.onclick=()=>d.remove();$('#rows').appendChild(d)};
+  for(let i=0;i<start;i++)add();
+  $('#add').onclick=add;
+  $('#go').onclick=()=>{const data=[...document.querySelectorAll('#rows .row')].map(r=>[...r.querySelectorAll('input')].map(i=>num(i.value)));
+    $('#out').innerHTML=calc(data)};
+}
+
+function cgpa(t){rows(t,[{h:'SGPA',p:'e.g. 8.4'},{h:'Credits (optional)',p:'e.g. 22'}],d=>{
+  const v=d.filter(r=>r[0]!==null);if(!v.length)return`<div class="result bad">Enter at least one SGPA.</div>`;
+  const hasC=v.every(r=>r[1]);let s=0,c=0;v.forEach(r=>{const w=hasC?r[1]:1;s+=r[0]*w;c+=w});const g=s/c;
+  return`<div class="result"><div class="big">${f2(g)}</div><div>CGPA across ${v.length} semester${v.length>1?'s':''}${hasC?' (weighted by credits)':''}</div><div style="color:var(--mute);margin-top:6px">≈ ${f2(g*9.5)}% using the common 9.5 multiplier. Check your university's own formula.</div></div>`},4)}
+
+function sgpa(t){rows(t,[{h:'Subject',p:'Name',t:'text'},{h:'Credits',p:'e.g. 4'},{h:'Grade point',p:'e.g. 9'}],d=>{
+  const v=d.filter(r=>r[1]!==null&&r[2]!==null);if(!v.length)return`<div class="result bad">Enter credits and grade points for at least one subject.</div>`;
+  let s=0,c=0;v.forEach(r=>{s+=r[1]*r[2];c+=r[1]});
+  return`<div class="result"><div class="big">${f2(s/c)}</div><div>SGPA from ${c} credits across ${v.length} subject${v.length>1?'s':''}</div></div>`},5)}
+
+function pct(t){
+  shell(t,`<label class="f" for="o">Marks obtained</label><input id="o" type="number" min="0" placeholder="e.g. 432">
+  <label class="f" for="m">Total marks</label><input id="m" type="number" min="1" placeholder="e.g. 600">
+  <div class="actions"><button class="btn" id="go">Calculate</button></div><div id="out"></div>`);
+  $('#go').onclick=()=>{const o=num($('#o').value),m=num($('#m').value);
+    $('#out').innerHTML=(o===null||!m||o<0||o>m)?`<div class="result bad">Enter marks obtained and total marks. Obtained marks can't be more than the total.</div>`:`<div class="result"><div class="big">${f2(o/m*100)}%</div><div>${o} out of ${m} marks</div></div>`};
+}
+function marks(t){rows(t,[{h:'Subject',p:'Name',t:'text'},{h:'Marks obtained',p:'e.g. 78'},{h:'Maximum marks',p:'e.g. 100'}],d=>{
+  const v=d.filter(r=>r[1]!==null&&r[2]);if(!v.length)return`<div class="result bad">Enter marks obtained and maximum marks.</div>`;
+  const o=v.reduce((a,r)=>a+r[1],0),m=v.reduce((a,r)=>a+r[2],0);
+  return`<div class="result"><div class="big">${f2(o/m*100)}%</div><div>${o} out of ${m} marks</div></div>`},5)}
+
+function att(t){
+  shell(t,`<label class="f" for="a">Classes attended</label><input id="a" type="number" min="0" placeholder="e.g. 42">
+  <label class="f" for="b">Total classes held so far</label><input id="b" type="number" min="0" placeholder="e.g. 50">
+  <label class="f" for="r">Required attendance (%)</label><input id="r" type="number" min="1" max="99" value="75">
+  <div class="actions"><button class="btn" id="go">Calculate</button></div><div id="out"></div>`);
+  $('#go').onclick=()=>{const a=num($('#a').value),b=num($('#b').value),r=num($('#r').value);let h;
+    if(a===null||!b||r===null||a>b||r<1||r>=100)h=`<div class="result bad">Check your numbers: attended can't be more than total, and required must be between 1 and 99.</div>`;
+    else{const p=a/b*100;let m;
+      if(p>=r){const k=Math.floor(a*100/r-b);m=`<div class="ok"><b>You're safe.</b> You can skip ${k} more class${k===1?'':'es'} and stay at or above ${r}%.</div>`}
+      else{const n=Math.ceil((r*b-100*a)/(100-r));m=`<div class="bad"><b>Below target.</b> Attend the next ${n} class${n===1?'':'es'} in a row to reach ${r}%.</div>`}
+      h=`<div class="result"><div class="big">${f2(p)}%</div>${m}</div>`}
+    $('#out').innerHTML=h};
+}
+
+function timer(t){
+  const M={focus:[25,'Focus'],short:[5,'Short break'],long:[15,'Long break']};let mode='focus',left=25*60,run=false;
+  shell(t,`<div class="timer"><div class="modes" id="modes">${Object.entries(M).map(([k,v])=>`<button class="btn alt" data-k="${k}">${v[1]} · ${v[0]}m</button>`).join('')}</div>
+  <div class="time" id="t" aria-live="off">25:00</div><div class="actions" style="justify-content:center"><button class="btn" id="s">Start</button><button class="btn alt" id="r">Reset</button></div>
+  <p class="sub" id="m" style="margin-top:14px"></p></div>`);
+  const show=()=>{const m=Math.floor(left/60),s=left%60;$('#t').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');document.title=(run?$('#t').textContent+' – ':'')+'StudyMate';
+    document.querySelectorAll('#modes .btn').forEach(b=>b.classList.toggle('on',b.dataset.k===mode));$('#s').textContent=run?'Pause':'Start'};
+  const set=k=>{clearInterval(tick);run=false;mode=k;left=M[k][0]*60;$('#m').textContent='';show()};
+  document.querySelectorAll('#modes .btn').forEach(b=>b.onclick=()=>set(b.dataset.k));
+  $('#r').onclick=()=>set(mode);
+  $('#s').onclick=()=>{if(run){clearInterval(tick);run=false;show();return}
+    run=true;const end=Date.now()+left*1000;
+    tick=setInterval(()=>{left=Math.max(0,Math.round((end-Date.now())/1000));if(left<=0){clearInterval(tick);run=false;$('#m').textContent=mode==='focus'?'Session done. Take a short break.':'Break over. Ready to focus?';}show()},250);show()};
+  show();
+}
+
+
+const G={
+cgpa:{n0:'a CGPA calculator',w:'CGPA (Cumulative Grade Point Average) is the overall grade average across all your semesters. A CGPA calculator combines your SGPA from each semester into a single number.',h:'Many institutions weight each semester by its credits, so a semester with more credits counts for more. If credits are left blank, this tool takes a simple average of your SGPAs.',f:'CGPA = Σ (SGPA × Credits) ÷ Σ Credits',ex:'Semester 1: SGPA 8.0 with 20 credits. Semester 2: SGPA 9.0 with 22 credits. Weighted total = (8.0 × 20) + (9.0 × 22) = 160 + 198 = 358. Total credits = 42. CGPA = 358 ÷ 42 = 8.52.',st:['Enter the SGPA for each semester.','Optionally enter the credits for each semester.','Use Add row for more semesters.','Press Calculate to see your CGPA.'],nt:'Grading scales, credit rules, and rounding differ between institutions. The percentage shown uses a common multiplier of 9.5, but many universities publish their own conversion, so check yours before relying on it.',q:[['Is CGPA the same as percentage?','No. CGPA is on a grade-point scale. Some institutions convert it to a percentage with their own formula.'],['Should I enter credits?','If your institution weights semesters by credits, yes. Otherwise leave credits blank for a simple average.'],['Can I calculate CGPA with one semester?','Yes. With one semester, the CGPA equals that semester\'s SGPA.'],['Why does my result differ from my university\'s?','Rounding rules, excluded courses, or a different scale can change the result. Your official record is what counts.']],r:['sgpa','pct']},
+sgpa:{n0:'an SGPA calculator',w:'SGPA (Semester Grade Point Average) is your grade average for a single semester, based on the credits and grade points of your subjects.',h:'Each subject\'s credits are multiplied by the grade point you earned. These products are added together and divided by the total credits.',f:'SGPA = Σ (Credits × Grade Point) ÷ Σ Credits',ex:'Four subjects: 4 credits at grade point 9 = 36; 3 credits at 8 = 24; 3 credits at 10 = 30; 2 credits at 7 = 14. Total = 104 over 12 credits. SGPA = 104 ÷ 12 = 8.67.',st:['Enter each subject name (optional).','Enter its credits and the grade point you earned.','Add more rows as needed.','Press Calculate to see your SGPA.'],nt:'Grade points for each letter grade (for example, what an "A" is worth) depend on your institution\'s scale. Use the grade points printed on your own grading scheme.',q:[['What is a grade point?','A number your institution assigns to each grade, such as 10 for the top grade on a 10-point scale.'],['Do failed subjects count?','Rules differ. Some institutions include them, others handle them separately. Check your regulations.'],['What is the difference between SGPA and CGPA?','SGPA covers one semester. CGPA covers all semesters together.'],['Can I use a 4.0 scale?','Yes. Enter credits and grade points on your scale, and the formula works the same way.']],r:['cgpa','marks']},
+pct:{n0:'a percentage calculator',w:'A percentage calculator shows what share of the total marks you obtained, written out of 100.',h:'Divide your marks by the total marks, then multiply by 100.',f:'Percentage = (Obtained Marks ÷ Total Marks) × 100',ex:'You scored 432 out of 600. 432 ÷ 600 = 0.72. 0.72 × 100 = 72%.',st:['Enter the marks you obtained.','Enter the total marks.','Press Calculate to see the percentage.'],nt:'Your obtained marks cannot be higher than the total. Some institutions round percentages differently, so your official figure may vary slightly.',q:[['How do I turn marks into a percentage?','Divide obtained marks by total marks and multiply by 100.'],['Can the percentage be over 100?','Not in normal exams. If it is, check that the total marks are right.'],['Does it round?','The result is shown to two decimal places. Your institution may round differently.'],['Can I add several subjects?','Use the Marks Calculator for that, which totals marks across subjects.']],r:['marks','cgpa']},
+att:{n0:'an attendance calculator',w:'An attendance calculator shows the percentage of classes you have attended, and how many you can miss or must attend to reach your required percentage.',h:'It divides classes attended by total classes held. It then compares the result with your target to work out how many more classes you can skip or need to attend.',f:'Attendance % = (Classes Attended ÷ Total Classes) × 100',ex:'You attended 42 of 50 classes, which is 84%. With a 75% requirement, you can miss 6 more classes (42 ÷ 56 = 75%). In another case, 30 of 45 is 66.67%. To reach 75% you would need to attend the next 15 classes in a row (45 ÷ 60 = 75%).',st:['Enter classes attended so far.','Enter total classes held so far.','Enter your required attendance percentage (default 75).','Press Calculate.'],nt:'Required attendance and the way absences are counted vary by institution. Treat the result as an estimate and confirm with your institution.',q:[['What attendance is usually required?','It varies. 75% is common, but your institution sets its own rule.'],['Does "classes you can skip" assume I attend none?','It shows how many future classes you could miss while staying at or above the target.'],['Are medical or approved absences counted?','Rules differ. Ask your institution how they are treated.'],['Why must I attend consecutive classes?','The calculation assumes you attend every upcoming class until you reach the target.']],r:['timer','pct']},
+marks:{n0:'a marks calculator',w:'A marks calculator adds up your marks across several subjects or exams and shows the total and the overall percentage.',h:'It sums the marks you obtained and the maximum marks for every row, then divides one by the other.',f:'Total Percentage = (Sum of Obtained Marks ÷ Sum of Maximum Marks) × 100',ex:'Maths 78/100, Physics 65/100, Chemistry 82/100. Obtained = 225, maximum = 300. 225 ÷ 300 × 100 = 75%.',st:['Enter a subject name (optional).','Enter marks obtained and maximum marks.','Use Add row for more subjects.','Press Calculate to see the total and percentage.'],nt:'Subjects can have different maximum marks. This tool handles that, but weighted grading schemes used by some institutions are not covered.',q:[['Can subjects have different maximum marks?','Yes. Enter each subject\'s own maximum.'],['What if a row is empty?','Rows missing marks or a maximum are ignored.'],['Is this the same as a weighted average?','No. It totals marks directly. Weighted schemes need your institution\'s weights.'],['How is it different from the Percentage Calculator?','That tool handles one pair of numbers. This one totals several subjects.']],r:['pct','sgpa']},
+timer:{raw:`<h2>What is a study timer?</h2><p>A study timer splits your study time into focused sessions and short breaks, so you always know how long you are working and when to rest.</p><h2>Suggested study and break structure</h2><ol><li>Choose one task and start a 25-minute focus session.</li><li>Work only on that task until the timer ends.</li><li>Take a 5-minute short break.</li><li>After a few sessions, take a longer break of about 15 minutes.</li></ol><h2>Tips for using the timer</h2><ol><li>Decide what you will study before pressing Start.</li><li>Keep your phone and other distractions out of reach.</li><li>Use breaks to stand, stretch, or drink water.</li><li>Adjust session lengths to what works for you.</li></ol><h2>Important notes</h2><p>These session lengths are a common starting point, not a rule. Choose lengths that suit you and your course.</p><h2>Related tools</h2><p><a href="#att">Attendance Calculator</a> · <a href="#marks">Marks Calculator</a></p>`}
+};
+const D={home:'Free student calculators and study tools: CGPA, SGPA, percentage, attendance, marks and a study timer.',tools:'All StudyMate student calculators: CGPA, SGPA, percentage, attendance and marks.',study:'Use the StudyMate Study Timer to organize focused study sessions and breaks.',about:'About StudyMate, a free and independent educational utility website for students.',contact:'Contact StudyMate with questions, suggestions, or issues with a tool.',privacy:'How StudyMate handles information when you use the website.',terms:'Terms of Use for the StudyMate website and tools.',disclaimer:'StudyMate calculators give estimates; verify results with your institution.'};
+function sectH1(...a){return sect(...a).replace('<h2>','<h1>').replace('</h2>','</h1>')}
+function guide(id){const g=G[id];if(!g)return'';if(g.raw)return`<article class="panel prose guide">${g.raw}</article>`;
+ return`<article class="panel prose guide"><h2>What is ${g.n0}?</h2><p>${g.w}</p><h2>How does it work?</h2><p>${g.h}</p><h2>Formula</h2><p class="formula">${g.f}</p><h2>Worked example</h2><p>${g.ex}</p><h2>How to use this calculator</h2><ol>${g.st.map(x=>`<li>${x}</li>`).join('')}</ol><h2>Important notes</h2><p>${g.nt}</p><h2>Frequently asked questions</h2>${g.q.map(x=>`<h3>${x[0]}</h3><p>${x[1]}</p>`).join('')}<h2>Related tools</h2><p>${g.r.map(i=>`<a href="#${i}">${TOOLS.find(y=>y.id===i).name}</a>`).join(' · ')}</p></article>`}
+const R={cgpa,sgpa,att,pct,marks,timer};
+const U='<p class="date">Last updated: October 2026</p>';
+const PAGES={
+about:['About',`<h1>About StudyMate</h1><p>StudyMate is a free online platform created to make everyday academic calculations and study tasks easier.</p><p>Students can use StudyMate to calculate CGPA, SGPA, percentages, attendance, and marks, as well as use simple study tools.</p><p>Our goal is to provide simple, fast, and easy-to-use educational utilities in one place.</p><p>StudyMate is an independent educational utility website and is not affiliated with any school, college, university, or educational institution.</p>`],
+contact:['Contact',`<h1>Contact</h1><p>Have a question, suggestion, or found an issue with a StudyMate tool?</p><p>Contact us at:</p><p><a href="mailto:${SUPPORT}"><b>${SUPPORT}</b></a></p><p>We’ll do our best to respond as soon as possible.</p>
+<form id="cf"><label class="f" for="cn">Name</label><input type="text" id="cn" required><label class="f" for="ce">Email</label><input type="email" id="ce" required style="width:100%;padding:11px 12px;font:inherit;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)">
+<label class="f" for="cm">Message</label><textarea id="cm" required></textarea><div class="actions"><button class="btn" type="submit">Send</button></div><p id="cs" class="sub" style="margin-top:12px">Clicking Send opens your email app with your message ready. StudyMate does not store submitted messages.</p></form>`],
+privacy:['Privacy Policy',`<h1>Privacy Policy</h1>${U}<p>This policy explains how StudyMate handles information when you use the website.</p>
+<h3>Calculator inputs</h3><p>StudyMate may process the numbers you enter into calculators in your browser to show results. Please do not enter sensitive personal information into any calculator.</p>
+<h3>Technical information</h3><p>StudyMate may collect limited technical information that is required to operate the website, such as basic server or hosting logs.</p>
+<h3>Analytics, cookies and advertising</h3><p>If analytics or advertising services are added later, relevant cookies or similar technologies may be used, and this policy will be updated before or when that happens.</p>
+<h3>Questions</h3><p>For privacy questions, contact the site owner at <a href="mailto:${SUPPORT}">${SUPPORT}</a>.</p>
+<h3>Updates to this policy</h3><p>This policy should be reviewed and updated whenever analytics, cookies, advertising, or other third-party services are added.</p>`],
+terms:['Terms',`<h1>Terms of Use</h1>${U}<p>By using StudyMate you agree to these terms.</p>
+<h3>Purpose</h3><p>StudyMate provides educational and informational tools.</p>
+<h3>Results are estimates</h3><p>Calculator results are estimates and should be checked against official academic records and institutional rules. StudyMate does not guarantee that results will match every institution's grading or attendance system.</p>
+<h3>Your responsibility</h3><p>You are responsible for the information you enter. StudyMate is not responsible for decisions made solely from calculator results.</p>
+<h3>Acceptable use</h3><p>Please do not misuse the website, including attempting to disrupt it or interfere with other users.</p>
+<h3>Changes</h3><p>StudyMate may modify or discontinue tools in the future.</p>`],
+disclaimer:['Disclaimer',`<h1>Disclaimer</h1><p>StudyMate provides educational calculators and study tools for general informational purposes.</p><p>Results generated by StudyMate are estimates based on the information entered by the user. Grading systems, GPA scales, attendance rules, and academic policies can vary between institutions.</p><p>Always verify important results with your college, university, school, or official academic records.</p><p>StudyMate is not affiliated with or endorsed by any educational institution unless explicitly stated.</p>`]
+};
+function route(){clearInterval(tick);
+  const id=location.hash.slice(1),t=TOOLS.find(x=>x.id===id);let cur='home',ttl='';
+  if(t){R[id](t);app.insertAdjacentHTML('beforeend',guide(id));cur=t.g==='study'?'study':'tools';ttl=t.name}
+  else if(id==='tools'||id==='study'){const st=id==='tools';cur=id;ttl=st?'Student Tools':'Study Tools';
+    app.innerHTML=sectH1(ttl,st?'Calculators for grades, marks, and attendance.':'Use the Study Timer to organize focused study sessions and breaks.',TOOLS.filter(x=>x.g===(st?'student':'study')));bind(app)}
+  else if(PAGES[id]){cur=id;ttl=PAGES[id][0];app.innerHTML=`<div class="panel prose">${PAGES[id][1]}</div>`;
+    if(id==='contact')$('#cf').onsubmit=e=>{e.preventDefault();location.href=`mailto:${SUPPORT}?subject=${encodeURIComponent('StudyMate message from '+$('#cn').value)}&body=${encodeURIComponent($('#cm').value+'\n\nReply to: '+$('#ce').value)}`;$('#cs').textContent='Your email app should open with your message ready to send. If it does not, email us at '+SUPPORT+'.'}}
+  else home();
+  $('#md').content=t?t.name+': '+t.d:(D[id]||D.home);document.title=ttl?ttl+' | StudyMate':'StudyMate – Free Student Calculators and Study Tools';
+  document.querySelectorAll('nav a').forEach(a=>a.getAttribute('href')==='#'+cur?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  window.scrollTo(0,0)}
+$('#home').onclick=()=>{location.hash='home'};
+addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
